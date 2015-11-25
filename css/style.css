@@ -5,5 +5,10 @@
 	background-color:#000;
 }
 
-.MainMenu-item { display:inline-block;
+.MainMenu-item { 
+	display:inline-block;
+}
+
+.MainMenu-list { 
+	text-align:center;
 }
