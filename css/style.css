@@ -4,3 +4,6 @@
 .MainMenu { 
 	background-color:#000;
 }
+
+.MainMenu-item { display:inline-block;
+}
