@@ -14,5 +14,7 @@
 }
 
 .MainMenu-link { 
-	color:#59bae2; 
+	color:#59bae2;
+	text-decoration:none;
+	margin-right: 10px;
 }
