@@ -1,0 +1,22 @@
+@charset "utf-8";
+/* CSS Document */
+
+.bg-header {
+	background-color:yellow;
+}
+
+.bg-profile {
+	background-color:gray;
+}
+
+.bg-works {
+	background-color:red;
+}
+
+.bg-contact {
+	background-color:gray;
+}
+
+.bg-nav {
+	background-color:#03C;
+}
