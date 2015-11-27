@@ -40,3 +40,25 @@
 .Header-imageContainer {
 
 }
+
+.Header-image { 
+	border:5px solid #FFFFFF;
+	border-radius:50%;
+	width:9.4em;
+	height:9.4em;
+}
+
+.Header-name,
+.Header-link { 
+	color:white;
+}
+
+.Header-link {
+	font-size:1.5em;
+	font-weight:bold;
+	text-decoration:none;
+}
+
+.Header-name { 
+	padding:.5em;
+}
