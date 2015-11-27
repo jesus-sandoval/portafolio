@@ -26,3 +26,17 @@
 	margin-right: 10px;
 	line-height:2.5em;
 }
+
+.Header { 
+	margin-top:2.5em;
+	background-image:url(../img/portada.jpg);
+	background-repeat:no-repeat;
+	background-position:center;
+	background-size:cover;
+	padding:2em;
+	text-align:center;
+}
+
+.Header-imageContainer {
+
+}
