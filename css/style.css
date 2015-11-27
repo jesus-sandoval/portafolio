@@ -3,19 +3,26 @@
 
 .MainMenu { 
 	background-color:#000;
+	height:2.5em;
+	position: fixed;
+	left:0;
+	right:0;
+	top:0;
 }
 
 .MainMenu-item { 
 	display:inline-block;
-	height:2.5em;
+	
 }
 
 .MainMenu-list { 
 	text-align:center;
+	margin:0;
 }
 
 .MainMenu-link { 
 	color:#59bae2;
 	text-decoration:none;
 	margin-right: 10px;
+	line-height:2.5em;
 }
