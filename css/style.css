@@ -38,7 +38,7 @@
 }
 
 .Header-imageContainer {
-
+	margin:0;
 }
 
 .Header-image { 
@@ -60,5 +60,5 @@
 }
 
 .Header-name { 
-	padding:.5em;
+	 
 }
