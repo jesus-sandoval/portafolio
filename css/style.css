@@ -1,6 +1,8 @@
 @charset "utf-8";
 /* CSS Document */
 
+/****** Menu ******/
+
 .MainMenu { 
 	background-color:#000;
 	height:2.5em;
@@ -26,6 +28,8 @@
 	margin-right: 10px;
 	line-height:2.5em;
 }
+
+/************* Header ***********/
 
 .Header { 
 	margin-top:2.5em;
@@ -53,12 +57,51 @@
 	color:white;
 }
 
+.Header-name {
+	font-weight:lighter;	
+}
+
 .Header-link {
 	font-size:1.5em;
 	font-weight:bold;
 	text-decoration:none;
 }
 
-.Header-name { 
-	 
+/***** Profile *****/
+
+.Profile { 
+	text-align:center;
+}
+
+.Profile-title { 
+	
+}
+
+.Profile-description { 
+
+}
+
+.Profile-link { 
+	background-color:orange;
+	border-radius:2em;
+	text-decoration:none;
+	color:white;
+	padding:.5em 1em;
+}
+
+/* Utilities */
+
+.u-title { 
+	border-bottom:2px dashed #00ccff;
+	color:#00ccff;
+	font-weight:400;
+	padding-bottom:.8em;
+}
+
+.u-strong { 
+	font-weight:bold;
+}
+
+.u-italic { 
+	font-style:italic;
 }
