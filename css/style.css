@@ -89,6 +89,31 @@
 	padding:.5em 1em;
 }
 
+/************** Work *********/
+
+.Work { 
+	text-align:center;
+}
+
+.Work-item { 
+	display:inline-block;
+	margin-right:.5em;
+	margin-bottom:.5em;
+}
+
+.Work-imageContainer { 
+	margin:0;
+}
+
+.Work-image { 
+
+}
+
+.Work-description { 
+	font-size:.9em;
+	color:#515151;
+}
+
 /* Utilities */
 
 .u-title { 
@@ -104,4 +129,9 @@
 
 .u-italic { 
 	font-style:italic;
+}
+
+.u-container { 
+	width:80%;
+	margin:0 auto;
 }
