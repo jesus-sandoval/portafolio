@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NutriDeck — Wireframe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:        #16141c;
+    --bg-panel:  #1f1c27;
+    --ink:       #f5f3ee;
+    --ink-dim:   #a29cb3;
+    --pink:      #ff2f7e;
+    --green:     #2ee6a6;
+    --yellow:    #ffd23f;
+    --blue:      #4dc4ff;
+    --violet:    #8a5bff;
+    --gray:      #55505f;
+    --gray-card: #37333e;
+    --line:      #000000;
+    --radius-lg: 28px;
+    --radius-md: 18px;
+    --shadow-hard: 6px 6px 0 var(--line);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    -webkit-tap-highlight-color:transparent;
+  }
+  h1,h2,h3,.display{
+    font-family:'Space Grotesk',system-ui,sans-serif;
+  }
+  button{font-family:inherit;}
+
+  /* ---------- App shell ---------- */
+  .App{
+    width:100%;
+    max-width:1180px;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:24px;
+    padding:20px 16px 60px;
+  }
+
+  @media (min-width:920px){
+    .App{
+      grid-template-columns:minmax(0,420px) 1fr;
+      align-items:start;
+      padding:40px 32px 80px;
+      gap:40px;
+    }
+  }
+
+  /* ---------- Top bar ---------- */
+  .TopBar{
+    grid-column:1/-1;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:-8px;
+  }
+  .TopBar-brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .TopBar-logo{
+    width:34px;height:34px;
+    background:var(--pink);
+    border-radius:9px;
+    border:3px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;
+    transform:rotate(-6deg);
+  }
+  .TopBar-title{
+    font-size:20px;
+    font-weight:700;
+    letter-spacing:-0.02em;
+  }
+  .TopBar-title em{
+    font-style:italic;
+    color:var(--yellow);
+  }
+  .IconBtn{
+    width:42px;height:42px;
+    border-radius:50%;
+    border:3px solid var(--line);
+    background:var(--bg-panel);
+    color:var(--ink);
+    font-size:18px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    box-shadow:var(--shadow-hard);
+  }
+  .IconBtn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--line);}
+
+  /* ---------- Phone column ---------- */
+  .PhoneCol{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+
+  /* Day carousel (horizontal) */
+  .DayRail{
+    display:flex;
+    gap:12px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    padding:4px 2px 14px;
+    margin:0 -2px;
+  }
+  .DayRail::-webkit-scrollbar{height:6px;}
+  .DayRail::-webkit-scrollbar-thumb{background:var(--gray);border-radius:6px;}
+
+  .DayCard{
+    scroll-snap-align:start;
+    flex:0 0 auto;
+    width:78px;
+    padding:14px 0 12px;
+    border-radius:20px;
+    border:3px solid var(--line);
+    background:var(--bg-panel);
+    color:var(--ink-dim);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+    cursor:pointer;
+    transition:transform .15s ease;
+  }
+  .DayCard-dow{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;}
+  .DayCard-num{font-family:'Space Grotesk';font-size:24px;font-weight:700;color:var(--ink);}
+  .DayCard-dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.5;}
+
+  .DayCard.is-active{
+    background:var(--pink);
+    color:#2a0a17;
+    box-shadow:var(--shadow-hard);
+    transform:translateY(-4px);
+  }
+  .DayCard.is-active .DayCard-num{color:#2a0a17;}
+  .DayCard.is-done{border-style:dashed;opacity:.6;}
+
+  /* Section label */
+  .SectionLabel{
+    display:flex;align-items:baseline;justify-content:space-between;
+    margin-bottom:2px;
+  }
+  .SectionLabel h2{
+    font-size:15px;text-transform:uppercase;letter-spacing:.1em;
+    color:var(--ink-dim);margin:0;font-weight:700;
+  }
+  .SectionLabel .count{font-size:13px;color:var(--ink-dim);}
+
+  /* ---------- Vertical rolodex stack ---------- */
+  .Stack{
+    position:relative;
+    height:420px;
+    touch-action:pan-y;
+  }
+  .Stack-empty{
+    position:absolute;inset:0;
+    border:3px dashed var(--gray);
+    border-radius:var(--radius-lg);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--ink-dim);
+    text-align:center;padding:24px;
+    font-weight:600;
+  }
+
+  .MealCard{
+    position:absolute;
+    left:0;right:0;top:0;
+    height:100%;
+    border-radius:var(--radius-lg);
+    border:3px solid var(--line);
+    padding:22px 22px 20px;
+    display:flex;
+    flex-direction:column;
+    color:#161320;
+    will-change:transform;
+    transition:transform .32s cubic-bezier(.2,.8,.2,1), opacity .32s ease, box-shadow .32s ease;
+    user-select:none;
+    cursor:grab;
+  }
+  .MealCard:active{cursor:grabbing;}
+  .MealCard.is-front{box-shadow:var(--shadow-hard);}
+  .MealCard.is-dragging{transition:none;}
+
+  .MealCard.c-pink{background:var(--pink);}
+  .MealCard.c-yellow{background:var(--yellow);}
+  .MealCard.c-green{background:var(--green);}
+  .MealCard.c-blue{background:var(--blue);}
+  .MealCard.c-violet{background:var(--violet);color:#f5f3ee;}
+  .MealCard.is-done{
+    background:var(--gray-card) !important;
+    color:var(--ink-dim) !important;
+    border-color:#000;
+  }
+
+  .MealCard-top{
+    display:flex;justify-content:space-between;align-items:flex-start;
+  }
+  .MealCard-time{
+    font-family:'Space Grotesk';font-weight:700;font-size:22px;
+  }
+  .MealCard-tag{
+    font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;
+    background:rgba(0,0,0,.14);
+    padding:5px 10px;border-radius:20px;
+  }
+  .MealCard-name{
+    font-family:'Space Grotesk';
+    font-weight:700;
+    font-size:clamp(22px,5vw,28px);
+    line-height:1.05;
+    margin-top:auto;
+  }
+  .MealCard-name em{font-style:italic;}
+  .MealCard-desc{
+    font-size:14px;
+    font-weight:600;
+    opacity:.8;
+    margin-top:8px;
+    line-height:1.35;
+  }
+  .MealCard-foot{
+    margin-top:16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .MealCard-hint{
+    font-size:12px;font-weight:700;opacity:.65;
+    display:flex;align-items:center;gap:6px;
+  }
+  .MealCard-check{
+    width:44px;height:44px;
+    border-radius:50%;
+    border:3px solid var(--line);
+    background:rgba(0,0,0,.85);
+    color:#fff;
+    font-size:18px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+  }
+  .MealCard.is-done .MealCard-check{background:rgba(255,255,255,.08);}
+
+  .SwipeGhost{
+    position:absolute;inset:0;
+    border-radius:var(--radius-lg);
+    background:linear-gradient(90deg, rgba(46,230,166,.9), transparent 55%);
+    display:flex;align-items:center;padding-left:26px;
+    font-family:'Space Grotesk';font-weight:700;font-size:18px;color:#0a1f16;
+    opacity:0;
+    pointer-events:none;
+  }
+
+  /* ---------- Action buttons ---------- */
+  .Actions{
+    display:flex;
+    gap:12px;
+  }
+  .Btn{
+    flex:1;
+    border:3px solid var(--line);
+    border-radius:16px;
+    padding:14px 14px;
+    font-weight:800;
+    font-size:14px;
+    cursor:pointer;
+    box-shadow:var(--shadow-hard);
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    background:var(--bg-panel);
+    color:var(--ink);
+  }
+  .Btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--line);}
+  .Btn.is-primary{background:var(--yellow);color:#221c00;}
+
+  /* ---------- Right / desktop panel ---------- */
+  .SidePanel{
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+  .Panel{
+    background:var(--bg-panel);
+    border:3px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:22px;
+  }
+  .Panel h3{
+    margin:0 0 14px;
+    font-size:14px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-dim);
+  }
+  .ProgressRow{
+    display:flex;align-items:center;gap:14px;margin-bottom:10px;
+  }
+  .ProgressRow-label{width:120px;font-size:13px;font-weight:700;}
+  .ProgressBar{
+    flex:1;height:12px;border-radius:8px;background:#000;border:2px solid var(--line);overflow:hidden;
+  }
+  .ProgressBar > span{display:block;height:100%;background:var(--green);}
+  .ProgressRow-val{font-size:12px;color:var(--ink-dim);width:36px;text-align:right;}
+
+  .WeekGrid{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:8px;
+  }
+  .WeekGrid-cell{
+    aspect-ratio:1;
+    border-radius:10px;
+    border:2px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:800;
+    background:var(--bg);
+    color:var(--ink-dim);
+  }
+  .WeekGrid-cell.is-active{background:var(--pink);color:#2a0a17;}
+  .WeekGrid-cell.is-full{background:var(--green);color:#0a1f16;}
+
+  .PlanList{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+  .PlanList li{
+    display:flex;align-items:center;justify-content:space-between;
+    background:var(--bg);
+    border:2px solid var(--line);
+    border-radius:12px;
+    padding:10px 14px;
+    font-size:13px;font-weight:700;
+  }
+  .PlanList li span.dim{color:var(--ink-dim);font-weight:600;}
+
+  .Note{
+    font-size:12px;
+    color:var(--ink-dim);
+    line-height:1.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="App">
+
+  <div class="TopBar">
+    <div class="TopBar-brand">
+      <div class="TopBar-logo">N</div>
+      <div class="TopBar-title">Nutri<em>Deck</em></div>
+    </div>
+    <button class="IconBtn" id="btnSettings" title="Configurar dieta">⚙</button>
+  </div>
+
+  <!-- LEFT: phone-scoped experience -->
+  <div class="PhoneCol">
+
+    <div>
+      <div class="SectionLabel"><h2>Semana</h2><span class="count" id="weekRange">Sem. 38</span></div>
+      <div class="DayRail" id="dayRail"></div>
+    </div>
+
+    <div>
+      <div class="SectionLabel">
+        <h2>Hoy toca</h2>
+        <span class="count" id="dayCount">0/0</span>
+      </div>
+      <div class="Stack" id="stack"></div>
+    </div>
+
+    <div class="Actions">
+      <button class="Btn" id="btnAddMeal">+ Agregar comida</button>
+      <button class="Btn is-primary" id="btnDiet">🥗 Set dieta</button>
+    </div>
+
+    <p class="Note">Wireframe — desliza la tarjeta de enfrente hacia la <strong>izquierda</strong> (o toca el check) para marcarla como hecha. Pasa al fondo de la pila en gris.</p>
+  </div>
+
+  <!-- RIGHT: desktop-only overview panel (also visible stacked on mobile) -->
+  <div class="SidePanel">
+    <div class="Panel">
+      <h3>Progreso de la semana</h3>
+      <div class="WeekGrid" id="weekGrid"></div>
+    </div>
+
+    <div class="Panel">
+      <h3>Avance de hoy</h3>
+      <div id="progressRows"></div>
+    </div>
+
+    <div class="Panel">
+      <h3>Plan activo</h3>
+      <ul class="PlanList">
+        <li>Objetivo <span class="dim">Recomposición</span></li>
+        <li>Nutriólogo <span class="dim">Dra. Marín</span></li>
+        <li>Calorías/día <span class="dim">2,100 kcal</span></li>
+        <li>Próxima revisión <span class="dim">3 oct</span></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+
+  // ---------- Data ----------
+  var DOWS = ["LUN","MAR","MIÉ","JUE","VIE","SÁB","DOM"];
+  var COLORS = ["c-pink","c-yellow","c-green","c-blue","c-violet"];
+
+  function buildMeals(seed){
+    var base = [
+      {time:"7:30",  tag:"Desayuno",   name:"Avena con <em>fruta</em> y nuez",      desc:"1 taza avena · 1 plátano · 10 nueces"},
+      {time:"10:30", tag:"Colación",   name:"Yogurt <em>griego</em> + granola",     desc:"1 yogurt natural · 2 cdas granola"},
+      {time:"14:00", tag:"Comida",     name:"Pollo a la <em>plancha</em>",          desc:"150g pollo · arroz · ensalada verde"},
+      {time:"17:30", tag:"Colación",   name:"Fruta + <em>puñado</em> de almendras", desc:"1 manzana · 10 almendras"},
+      {time:"20:30", tag:"Cena",       name:"Salmón con <em>verduras</em>",         desc:"120g salmón · brócoli al vapor"}
+    ];
+    return base.map(function(m,i){
+      return {
+        id: seed + "-" + i,
+        time:m.time, tag:m.tag, name:m.name, desc:m.desc,
+        color: COLORS[i % COLORS.length],
+        done:false
+      };
+    });
+  }
+
+  var today = new Date();
+  var days = [];
+  for(var i=0;i<7;i++){
+    var d = new Date(today);
+    d.setDate(today.getDate() - today.getDay() + 1 + i); // Monday-start
+    days.push({
+      id:i,
+      dow:DOWS[i],
+      num:d.getDate(),
+      meals: buildMeals("d"+i)
+    });
+  }
+  var activeDay = Math.min(Math.max(today.getDay()-1,0),6);
+
+  // ---------- DOM refs ----------
+  var dayRail = document.getElementById('dayRail');
+  var stackEl = document.getElementById('stack');
+  var dayCountEl = document.getElementById('dayCount');
+  var weekGrid = document.getElementById('weekGrid');
+  var progressRows = document.getElementById('progressRows');
+
+  // ---------- Render: day rail ----------
+  function renderDayRail(){
+    dayRail.innerHTML = "";
+    days.forEach(function(day){
+      var doneCount = day.meals.filter(function(m){return m.done;}).length;
+      var allDone = doneCount === day.meals.length;
+      var el = document.createElement('div');
+      el.className = 'DayCard' + (day.id===activeDay ? ' is-active':'') + (allDone ? ' is-done':'');
+      el.innerHTML =
+        '<span class="DayCard-dow">'+day.dow+'</span>' +
+        '<span class="DayCard-num">'+day.num+'</span>' +
+        '<span class="DayCard-dot"></span>';
+      el.addEventListener('click', function(){
+        activeDay = day.id;
+        renderAll();
+      });
+      dayRail.appendChild(el);
+    });
+    // keep active day in view
+    var activeEl = dayRail.children[activeDay];
+    if(activeEl) activeEl.scrollIntoView({inline:'center', block:'nearest'});
+  }
+
+  // ---------- Render: vertical rolodex stack ----------
+  var drag = null; // {id, startX, startY, dx, el}
+
+  function renderStack(){
+    stackEl.innerHTML = "";
+    var meals = days[activeDay].meals;
+    var pending = meals.filter(function(m){return !m.done;});
+    var done = meals.filter(function(m){return m.done;});
+    var ordered = pending.concat(done);
+
+    dayCountEl.textContent = done.length + "/" + meals.length;
+
+    if(ordered.length === 0){
+      var empty = document.createElement('div');
+      empty.className = 'Stack-empty';
+      empty.textContent = 'No hay comidas configuradas para este día.';
+      stackEl.appendChild(empty);
+      return;
+    }
+
+    var maxVisible = 5;
+    ordered.slice(0, maxVisible).forEach(function(meal, idx){
+      var card = document.createElement('div');
+      card.className = 'MealCard ' + (meal.done ? 'is-done' : meal.color) + (idx===0 ? ' is-front':'');
+      card.dataset.id = meal.id;
+
+      var depth = idx;
+      var scale = 1 - depth*0.045;
+      var translateY = depth*14;
+      card.style.zIndex = (maxVisible - depth);
+      card.style.transform = 'translateY('+translateY+'px) scale('+scale+')';
+      card.style.opacity = depth===0 ? 1 : Math.max(0.35, 1 - depth*0.22);
+
+      card.innerHTML =
+        '<div class="MealCard-top">' +
+          '<span class="MealCard-time">'+meal.time+'</span>' +
+          '<span class="MealCard-tag">'+(meal.done ? 'Hecho ✓' : meal.tag)+'</span>' +
+        '</div>' +
+        '<div class="MealCard-name">'+meal.name+'</div>' +
+        '<div class="MealCard-desc">'+meal.desc+'</div>' +
+        '<div class="MealCard-foot">' +
+          '<span class="MealCard-hint">'+(idx===0 && !meal.done ? '← desliza para marcar' : '')+'</span>' +
+          '<span class="MealCard-check">'+(meal.done ? '↺' : '✓')+'</span>' +
+        '</div>' +
+        '<div class="SwipeGhost">Completada ✓</div>';
+
+      if(idx===0 && !meal.done){
+        attachSwipe(card, meal);
+      }
+      var checkBtn = card.querySelector('.MealCard-check');
+      checkBtn.addEventListener('click', function(e){
+        e.stopPropagation();
+        toggleMeal(meal);
+      });
+
+      stackEl.appendChild(card);
+    });
+  }
+
+  function toggleMeal(meal){
+    meal.done = !meal.done;
+    renderAll();
+  }
+
+  function attachSwipe(card, meal){
+    var ghost = card.querySelector('.SwipeGhost');
+    var startX=0, startY=0, dx=0, dragging=false;
+
+    function pointerDown(e){
+      dragging = true;
+      card.classList.add('is-dragging');
+      startX = (e.touches ? e.touches[0].clientX : e.clientX);
+      startY = (e.touches ? e.touches[0].clientY : e.clientY);
+      document.addEventListener('mousemove', pointerMove);
+      document.addEventListener('mouseup', pointerUp);
+      document.addEventListener('touchmove', pointerMove, {passive:false});
+      document.addEventListener('touchend', pointerUp);
+    }
+    function pointerMove(e){
+      if(!dragging) return;
+      var x = (e.touches ? e.touches[0].clientX : e.clientX);
+      var y = (e.touches ? e.touches[0].clientY : e.clientY);
+      dx = x - startX;
+      var dy = y - startY;
+      if(Math.abs(dx) > Math.abs(dy) && e.cancelable) e.preventDefault();
+      var rot = dx/22;
+      card.style.transform = 'translate('+dx+'px, 0) rotate('+rot+'deg)';
+      var progress = Math.min(Math.max(-dx/120, 0), 1);
+      ghost.style.opacity = progress;
+    }
+    function pointerUp(){
+      dragging = false;
+      card.classList.remove('is-dragging');
+      document.removeEventListener('mousemove', pointerMove);
+      document.removeEventListener('mouseup', pointerUp);
+      document.removeEventListener('touchmove', pointerMove);
+      document.removeEventListener('touchend', pointerUp);
+
+      if(dx < -80){
+        card.style.transition = 'transform .28s ease, opacity .28s ease';
+        card.style.transform = 'translate(-140%, 0) rotate(-14deg)';
+        card.style.opacity = 0;
+        setTimeout(function(){ toggleMeal(meal); }, 220);
+      } else {
+        card.style.transform = 'translateY(0) scale(1)';
+        ghost.style.opacity = 0;
+      }
+      dx = 0;
+    }
+
+    card.addEventListener('mousedown', pointerDown);
+    card.addEventListener('touchstart', pointerDown, {passive:true});
+  }
+
+  // ---------- Render: side panel ----------
+  function renderWeekGrid(){
+    weekGrid.innerHTML = "";
+    days.forEach(function(day){
+      var doneCount = day.meals.filter(function(m){return m.done;}).length;
+      var full = doneCount === day.meals.length;
+      var cell = document.createElement('div');
+      cell.className = 'WeekGrid-cell' + (day.id===activeDay ? ' is-active':'') + (full && day.id!==activeDay ? ' is-full':'');
+      cell.textContent = day.dow[0];
+      weekGrid.appendChild(cell);
+    });
+  }
+
+  function renderProgress(){
+    progressRows.innerHTML = "";
+    var meals = days[activeDay].meals;
+    meals.forEach(function(meal){
+      var pct = meal.done ? 100 : 0;
+      var row = document.createElement('div');
+      row.className = 'ProgressRow';
+      row.innerHTML =
+        '<span class="ProgressRow-label">'+meal.tag+' '+meal.time+'</span>' +
+        '<span class="ProgressBar"><span style="width:'+pct+'%"></span></span>' +
+        '<span class="ProgressRow-val">'+pct+'%</span>';
+      progressRows.appendChild(row);
+    });
+  }
+
+  function renderAll(){
+    renderDayRail();
+    renderStack();
+    renderWeekGrid();
+    renderProgress();
+  }
+
+  // ---------- Actions ----------
+  document.getElementById('btnAddMeal').addEventListener('click', function(){
+    alert('Wireframe: aquí abriría el formulario para agregar una comida/colación (hora, nombre, macros, foto).');
+  });
+  document.getElementById('btnDiet').addEventListener('click', function(){
+    alert('Wireframe: aquí abriría el flujo para crear/editar el plan de dieta completo.');
+  });
+  document.getElementById('btnSettings').addEventListener('click', function(){
+    alert('Wireframe: ajustes de cuenta, notificaciones y nutriólogo vinculado.');
+  });
+
+  renderAll();
+})();
+</script>
+</body>
+</html>
