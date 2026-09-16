@@ -449,8 +449,14 @@
     cursor:pointer;
     flex:0 0 auto;
   }
+  /* Not every Google icon ships a distinct outline/filled pair, so the
+     navbar always renders filled glyphs; selection is communicated by
+     color + a persistent background pill instead of the FILL axis. */
+  .NavBar-item .material-symbols-rounded{
+    font-variation-settings:'FILL' 1,'wght' 300,'GRAD' 0,'opsz' 24;
+  }
   .NavBar-item:hover{background:var(--bg-sunken);}
-  .NavBar-item.is-active{color:var(--text);}
+  .NavBar-item.is-active{color:var(--text);background:var(--bg-sunken);}
 
   /* ---------- Modals ---------- */
   .ModalOverlay{
@@ -610,11 +616,11 @@
 
 <div class="NavBar">
   <div class="NavBar-inner" id="navBar">
-    <button class="NavBar-item" data-type="action" data-action="openMonth" data-icon="calendar_month" title="Calendario"></button>
-    <button class="NavBar-item" data-type="nav" data-target="secMeals" data-icon="restaurant" title="Hoy"></button>
+    <button class="NavBar-item" data-type="toggle" data-action="openMonth" data-icon="calendar_month" title="Calendario"></button>
+    <button class="NavBar-item" data-type="toggle" data-target="secMeals" data-icon="restaurant" title="Hoy"></button>
     <button class="NavBar-item" data-type="action" data-action="openAdd" data-icon="add_circle" title="Agregar"></button>
-    <button class="NavBar-item" data-type="nav" data-target="secStats" data-icon="bar_chart" title="Resumen"></button>
-    <button class="NavBar-item" data-type="nav" data-target="secProfile" data-icon="person" title="Perfil"></button>
+    <button class="NavBar-item" data-type="toggle" data-target="secStats" data-icon="bar_chart" title="Resumen"></button>
+    <button class="NavBar-item" data-type="toggle" data-target="secProfile" data-icon="person" title="Perfil"></button>
   </div>
 </div>
 
@@ -1116,9 +1122,13 @@
   });
 
   // ---------- Nav bar ----------
+  // "toggle" buttons (calendar, hoy, resumen, perfil) stay selected — via a
+  // persistent background pill, not the FILL axis — until another one is
+  // tapped; opening the calendar popup does not clear its selected state.
+  // "action" buttons (agregar) never carry a selected state.
   var navBar = document.getElementById('navBar');
   var navButtons = Array.prototype.slice.call(navBar.querySelectorAll('.NavBar-item'));
-  var navDestButtons = navButtons.filter(function(b){ return b.dataset.type === 'nav'; });
+  var navToggleButtons = navButtons.filter(function(b){ return b.dataset.type === 'toggle'; });
 
   navButtons.forEach(function(btn){
     var icon = document.createElement('span');
@@ -1127,23 +1137,18 @@
     btn.appendChild(icon);
 
     btn.addEventListener('click', function(){
-      if(btn.dataset.type === 'action'){
+      if(btn.dataset.type === 'toggle'){
+        navToggleButtons.forEach(function(b){ b.classList.remove('is-active'); });
+        btn.classList.add('is-active');
         if(btn.dataset.action === 'openMonth') openMonth();
-        if(btn.dataset.action === 'openAdd') document.getElementById('btnAddMeal').click();
+        var target = btn.dataset.target && document.getElementById(btn.dataset.target);
+        if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
         return;
       }
-      navDestButtons.forEach(function(b){
-        b.classList.remove('is-active');
-        b.querySelector('.material-symbols-rounded').classList.remove('is-filled');
-      });
-      btn.classList.add('is-active');
-      btn.querySelector('.material-symbols-rounded').classList.add('is-filled');
-      var target = document.getElementById(btn.dataset.target);
-      if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+      if(btn.dataset.action === 'openAdd') document.getElementById('btnAddMeal').click();
     });
   });
-  navDestButtons[0].classList.add('is-active');
-  navDestButtons[0].querySelector('.material-symbols-rounded').classList.add('is-filled');
+  navToggleButtons[1].classList.add('is-active'); // "Hoy" selected by default
 
   // ---------- Actions ----------
   document.getElementById('btnAddMeal').addEventListener('click', function(){
